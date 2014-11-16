@@ -1,0 +1,22 @@
+#VENDOR SCRIPTS:
+[submodule "vendor/PHPMailer"]
+	path = vendor/PHPMailer
+	url = https://github.com/PHPMailer/PHPMailer.git
+[submodule "vendor/PHPExcel"]
+	path = vendor/PHPExcel
+	url = https://github.com/PHPOffice/PHPExcel.git
+[submodule "vendor/Mobile-Detect"]
+	path = vendor/Mobile-Detect
+	url = https://github.com/serbanghita/Mobile-Detect.git
+[submodule "vendor/facebook-php-sdk"]
+	path = vendor/facebook-php-sdk
+	url = https://github.com/facebook/facebook-php-sdk.git
+[submodule "vendor/dompdf"]
+	path = vendor/dompdf
+	url = https://github.com/dompdf/dompdf.git
+[submodule "vendor/google-api-php-client"]
+	path = vendor/google-api-php-client
+	url = https://github.com/google/google-api-php-client.git
+[submodule "vendor/codebird-php"]
+	path = vendor/codebird-php
+	url = https://github.com/jublonet/codebird-php.git

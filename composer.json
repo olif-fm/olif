@@ -1,0 +1,24 @@
+{
+    "name": "avara1986/Olif",
+    "type": "library",
+    "description": "OLIF is a PHP framework to support developers to build fast websites",
+	"license": "Apache2",
+    "config": {
+        "vendor-dir": "vendor"
+    },
+    "authors": [
+        {
+            "name": "Alberto Vara",
+            "email": "a.vara.1986@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+	"ext-curl": "*",
+	"pdepend/pdepend" : "2.0.3"
+    },
+    "require-dev": {
+    	"phpmd/phpmd" : "@stable",
+        "phpunit/phpunit": ">=3.7"
+    }
+}
