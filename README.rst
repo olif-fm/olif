@@ -40,7 +40,7 @@ From submodule
 
 ::
 
-    git submodule add https://github.com/olif-fm/olif-example.git olif
+    git submodule add https://github.com/olif-fm/olif olif
 
 Install dependencies
 --------------------
@@ -62,7 +62,7 @@ Install git submodules:
 
 ::
 
-    ./git git-submodule.sh
+    ./git-submodule.sh
 
 Update git submodules:
 
