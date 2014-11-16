@@ -45,6 +45,10 @@ From submodule
 Install dependencies
 --------------------
 
+::
+
+    cd olif/
+
 Install composer:
 
 ::
