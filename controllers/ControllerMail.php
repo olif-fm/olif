@@ -1,4 +1,5 @@
 <?php
+
 /**
  * ControllerMail
  * @version V 1.7
@@ -11,29 +12,30 @@
  */
 namespace Olif;
 
-require_once CORE_ROOT.CONTROLLERS.DIRECTORY_SEPARATOR."ControllerApp.php";
-
+require_once CORE_ROOT . CONTROLLERS . DIRECTORY_SEPARATOR . "ControllerApp.php";
 class ControllerMail extends ControllerApp {
-    /** *
-    * h_mail
-    * Objeto donde se instancia la clase phpMailer
-    */
+    /**
+     * *
+     * h_mail
+     * Objeto donde se instancia la clase phpMailer
+     */
     public $h_mail;
     /**
-    * __construct
-    * Constructor de la clase
-    */
+     * __construct
+     * Constructor de la clase
+     */
     public function __construct() {
         parent::__construct();
-        require_once (CORE_ROOT.THREEPARTY.'PHPMailer/class.phpmailer.php');
-        $this->h_mail = new phpmailer();
-        $this->h_mail->PluginDir = CORE_ROOT.THREEPARTY."PHPMailer/";
-        $this->h_mail->Host     = MAILER_HOST;
-        $this->h_mail->Port     = MAILER_PORT;
+        require_once (CORE_ROOT . THREEPARTY . 'PHPMailer/PHPMailerAutoload.php');
+        $this->h_mail = new \phpmailer();
+        $this->h_mail->PluginDir = CORE_ROOT . THREEPARTY . "PHPMailer/";
+        $this->h_mail->Host = MAILER_HOST;
+        $this->h_mail->Port = MAILER_PORT;
         $this->h_mail->Username = MAILER_USER;
         $this->h_mail->Password = MAILER_PASS;
-        $this->h_mail->SMTPAuth = true;  // authentication enabled
-        if (MAILER_USE_SLL)$this->h_mail->SMTPSecure = 'ssl'; // secure transfer enabled REQUIRED for Gmail
+        $this->h_mail->SMTPAuth = true; // authentication enabled
+        if (MAILER_USE_SLL)
+            $this->h_mail->SMTPSecure = 'ssl'; // secure transfer enabled REQUIRED for Gmail
         $this->h_mail->Timeout = 50;
         $this->h_mail->Mailer = "smtp";
         $this->h_mail->IsSMTP();
@@ -49,20 +51,28 @@ class ControllerMail extends ControllerApp {
     }
     /**
      * constructMail
-     * @param from: email del remitente
-     * @param fromname: nombre del remitente
-     * @param subject: titulo del mensaje
-     * @param html: contenido del mail
-     * @param plain_text: texto plano: suele ser el aviso legal
-     * @param reply: contestar a:
-        *
-        **/
+     *
+     * @param
+     *            from: email del remitente
+     * @param
+     *            fromname: nombre del remitente
+     * @param
+     *            subject: titulo del mensaje
+     * @param
+     *            html: contenido del mail
+     * @param
+     *            plain_text: texto plano: suele ser el aviso legal
+     * @param
+     *            reply: contestar a:
+     *
+     *
+     */
     public function constructMail($from, $fromname, $subject, $html, $plain_text, $reply, $default = false) {
-        //Si no se ha enviado ningún cuerpo, se incluye uno por defecto
-        $body="";
-        $html=$this->stringToMail($html);
+        // Si no se ha enviado ningún cuerpo, se incluye uno por defecto
+        $body = "";
+        $html = $this->stringToMail($html);
 
-        if ($default==true) {
+        if ($default == true) {
             $body = '<html>
             <head>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -73,9 +83,9 @@ class ControllerMail extends ControllerApp {
               </tr>
               </table>';
         }
-        $body.=$html;
-        if ($default==true) {
-            $body.='<table width="676" border="0" align="center" cellpadding="0" cellspacing="0">
+        $body .= $html;
+        if ($default == true) {
+            $body .= '<table width="676" border="0" align="center" cellpadding="0" cellspacing="0">
               <tr>
                 <td>&nbsp;
                 <p style="font-family:Tahoma, Geneva, sans-serif; color:#444444; font-size:9px; line-height:17px;">AVISO LEGAL<br />
@@ -84,17 +94,15 @@ class ControllerMail extends ControllerApp {
               </tr>
             </table>';
         }
-        //Footer plain text
-        $plain_text.='';
+        // Footer plain text
+        $plain_text .= '';
 
-        $this->h_mail->From     = $from;
+        $this->h_mail->From = $from;
         $this->h_mail->FromName = $fromname;
-        $this->h_mail->Subject  = $subject;
+        $this->h_mail->Subject = $subject;
         $this->h_mail->AddReplyTo($reply, $fromname);
         $this->h_mail->AltBody = $plain_text;
         $this->h_mail->Body = $body;
-
-
     }
     /**
      * Adjuntar destinatarios
@@ -112,7 +120,7 @@ class ControllerMail extends ControllerApp {
      * Adjuntar ficheros
      */
     public function addAttachment($atach = "", $atach_name = "") {
-        if ( is_file($atach) ) {
+        if (is_file($atach)) {
             $this->h_mail->AddAttachment($atach, $atach_name);
         }
     }
@@ -120,21 +128,22 @@ class ControllerMail extends ControllerApp {
      * Enviar mail
      */
     public function sendMail() {
-        //se envia el mensaje, si no ha habido problemas
-        //la variable $exito tendra el valor true
-        //if (IS_DEV===false)$this->setMailerMail();
-        $result=$this->h_mail->Send();
+        // se envia el mensaje, si no ha habido problemas
+        // la variable $exito tendra el valor true
+        // if (IS_DEV===false)$this->setMailerMail();
+        $result = $this->h_mail->Send();
         /*
-        $intentos=1;
-        while ((!$result) && ($intentos < 5)) {
-            sleep(5);
-            //echo $mail->ErrorInfo;
-            $result = $this->h_mail->Send();
-            if (!$result) {
-                echo 'Error: ' . $this->h_mail->ErrorInfo;
-            }
-            $intentos++;
-        }*/
+         * $intentos=1;
+         * while ((!$result) && ($intentos < 5)) {
+         * sleep(5);
+         * //echo $mail->ErrorInfo;
+         * $result = $this->h_mail->Send();
+         * if (!$result) {
+         * echo 'Error: ' . $this->h_mail->ErrorInfo;
+         * }
+         * $intentos++;
+         * }
+         */
         $this->h_mail->ClearAddresses();
         return $result;
     }
@@ -145,14 +154,13 @@ class ControllerMail extends ControllerApp {
         return $this->h_mail->IsError();
     }
     /**
-    *
-    */
+     */
     public function stringToMail($texto) {
-        $texto=html_entity_decode($texto, ENT_NOQUOTES);
-        $texto=htmlspecialchars_decode($texto);
-        $texto=str_replace("\\\"", '"', $texto);
-        $texto=str_replace("\\n", '', $texto);
-        $texto=str_replace("\\r", '', $texto);
+        $texto = html_entity_decode($texto, ENT_NOQUOTES);
+        $texto = htmlspecialchars_decode($texto);
+        $texto = str_replace("\\\"", '"', $texto);
+        $texto = str_replace("\\n", '', $texto);
+        $texto = str_replace("\\r", '', $texto);
         return $texto;
     }
 }
