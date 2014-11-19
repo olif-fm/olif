@@ -1,4 +1,5 @@
 <?php
+
 namespace Olif;
 
 if (! defined('NODE_ROOT'))
@@ -17,32 +18,21 @@ for ($i = 0; $i < 4 && $exist === false; $i ++) {
 $bootstrap = $folder . $dir . DIRECTORY_SEPARATOR . $bootstrap;
 $DIR_INDEX = str_replace("olif/tests/", "", dirname(__FILE__) . DIRECTORY_SEPARATOR);
 require_once ($bootstrap);
-
-class RemoteConnect
-{
-
-    public function connectToServer($serverName = null)
-    {
+class RemoteConnect {
+    public function connectToServer($serverName = null) {
         if ($serverName == null) {
             throw new Exception("Este no es un nombre de servidor!");
         }
         $fp = fsockopen($serverName, 80);
         return ($fp) ? true : false;
     }
-
-    public function returnSampleObject()
-    {
+    public function returnSampleObject() {
         return $this;
     }
 }
-
-class OlifTest extends \PHPUnit_Framework_TestCase
-{
-
+class OlifTest extends \PHPUnit_Framework_TestCase {
     public $test;
-
-    public function setUp()
-    {
+    public function setUp() {
         $devm = new ModelDeveloper();
         $devm->getModelDB();
 
@@ -53,33 +43,29 @@ class OlifTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(get_class($this->test) === "Olif\ControllerDeveloper");
     }
 
-    public function tearDown()
-    {}
-
     /**
      * testDB
      * Necesitamos probar si la instancia se mantiene de un objeto a otro.
      * para ello utilizaremos al controlador Access
      */
-    public function testDBConnect()
-    {
+    public function testDBConnect() {
 
         /**
          * Errores de conexión
          */
         /*
-        ob_start();
-        $result = $this->test->db->connect(DBHOST, "NOEXISTE", DBPASS, DBNAME, DBPORT, DBSOCKET);
-        $result_msg = ob_get_clean();
-        $this->assertTrue($result === false);
-        $this->assertTrue($result_msg !== "");
-
-        ob_start();
-        $result = $this->test->db->connect(DBHOST, "", DBPASS, DBNAME, DBPORT, DBSOCKET);
-        $result_msg = ob_get_clean();
-        $this->assertTrue($result === false);
-        $this->assertTrue($result_msg !== "");
-        */
+         * ob_start();
+         * $result = $this->test->db->connect(DBHOST, "NOEXISTE", DBPASS, DBNAME, DBPORT, DBSOCKET);
+         * $result_msg = ob_get_clean();
+         * $this->assertTrue($result === false);
+         * $this->assertTrue($result_msg !== "");
+         *
+         * ob_start();
+         * $result = $this->test->db->connect(DBHOST, "", DBPASS, DBNAME, DBPORT, DBSOCKET);
+         * $result_msg = ob_get_clean();
+         * $this->assertTrue($result === false);
+         * $this->assertTrue($result_msg !== "");
+         */
         /**
          * Si todo ok....
          */
@@ -91,9 +77,7 @@ class OlifTest extends \PHPUnit_Framework_TestCase
         $result = $this->test->db->getFieldsName(TABLE_ROLS);
         $this->assertTrue($result !== false);
     }
-
-    public function testDBNoExist()
-    {
+    public function testDBNoExist() {
         /**
          * Errores de consulta
          */
@@ -104,32 +88,30 @@ class OlifTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($result_msg !== "");
 
         ob_start();
-        $result = $this->test->db->masterQuery("Blablabla", array());
+        $result = $this->test->db->masterQuery("Blablabla", array ());
         $result_msg = ob_get_clean();
         $this->assertTrue($result === null);
         $this->assertTrue($result_msg !== "");
         /**
          * Consultas No existe
          */
-        $result = $this->test->db->query(TABLE_ROLS_FIELDS, TABLE_ROLS, "", "ID = ?", "", array(
-            'NO-EXISTE'
+        $result = $this->test->db->query(TABLE_ROLS_FIELDS, TABLE_ROLS, "", "ID = ?", "", array (
+                'NO-EXISTE'
         ));
         $this->assertCount(0, $result);
 
-        $result = $this->test->db->masterQuery("SELECT " . TABLE_ROLS_FIELDS . " FROM " . TABLE_ROLS . " WHERE ID = ?", array(
-            'NO-EXISTE'
+        $result = $this->test->db->masterQuery("SELECT " . TABLE_ROLS_FIELDS . " FROM " . TABLE_ROLS . " WHERE ID = ?", array (
+                'NO-EXISTE'
         ));
         $this->assertCount(0, $result);
 
-        $result = $this->test->db->queryPaged(TABLE_ROLS_FIELDS, TABLE_ROLS, "", "ID = ?", "", array(
-            'NO-EXISTE'
+        $result = $this->test->db->queryPaged(TABLE_ROLS_FIELDS, TABLE_ROLS, "", "ID = ?", "", array (
+                'NO-EXISTE'
         ), 0);
 
         $this->assertCount(0, $result['elements']);
     }
-
-    public function testDBInsert()
-    {
+    public function testDBInsert() {
         /**
          * Insertar
          */
@@ -142,9 +124,7 @@ class OlifTest extends \PHPUnit_Framework_TestCase
         $result = $this->test->db->executeCommand();
         $this->assertTrue($result === true);
     }
-
-    public function testDBUpdate()
-    {
+    public function testDBUpdate() {
         /**
          * Insertar
          */
@@ -156,27 +136,25 @@ class OlifTest extends \PHPUnit_Framework_TestCase
         $result = $this->test->db->executeCommand();
         $this->assertTrue($result === true);
     }
-
-    public function testDBExist()
-    {
+    public function testDBExist() {
         /**
          * Consultas Existe
          */
-        $result = $this->test->db->query(TABLE_ROLS_FIELDS, TABLE_ROLS, "", "", "", array());
+        $result = $this->test->db->query(TABLE_ROLS_FIELDS, TABLE_ROLS, "", "", "", array ());
         $this->assertNotCount(0, $result);
 
-        $result = $this->test->db->query(TABLE_ROLS_FIELDS, TABLE_ROLS, "", "ID = ?", "", array(
-            'NO-EXISTE'
+        $result = $this->test->db->query(TABLE_ROLS_FIELDS, TABLE_ROLS, "", "ID = ?", "", array (
+                'NO-EXISTE'
         ));
         $this->assertNotCount(0, $result);
 
-        $result = $this->test->db->masterQuery("SELECT " . TABLE_ROLS_FIELDS . " FROM " . TABLE_ROLS . " WHERE ID = ?", array(
-            'NO-EXISTE'
+        $result = $this->test->db->masterQuery("SELECT " . TABLE_ROLS_FIELDS . " FROM " . TABLE_ROLS . " WHERE ID = ?", array (
+                'NO-EXISTE'
         ));
         $this->assertNotCount(0, $result);
 
-        $result = $this->test->db->queryPaged(TABLE_ROLS_FIELDS, TABLE_ROLS, "", "ID = ?", "", array(
-            'NO-EXISTE'
+        $result = $this->test->db->queryPaged(TABLE_ROLS_FIELDS, TABLE_ROLS, "", "ID = ?", "", array (
+                'NO-EXISTE'
         ), 0);
         $this->assertNotCount(0, $result['elements']);
         /**
@@ -187,9 +165,7 @@ class OlifTest extends \PHPUnit_Framework_TestCase
         $result_msg = ob_get_clean();
         $this->assertTrue($result_msg !== "");
     }
-
-    public function testDBDelete()
-    {
+    public function testDBDelete() {
         /**
          * Borrar
          */
@@ -199,9 +175,7 @@ class OlifTest extends \PHPUnit_Framework_TestCase
         $result = $this->test->db->executeCommand();
         $this->assertTrue($result === true);
     }
-
-    public function testControllerAccess()
-    {
+    public function testControllerAccess() {
         /**
          * Comprobamos la clase
          */
@@ -247,9 +221,7 @@ class OlifTest extends \PHPUnit_Framework_TestCase
      * TODO: Verificar si existe tabla de usuarios, si es así probar login y demás
      */
     }
-
-    public function testControllerRequest()
-    {
+    public function testControllerRequest() {
         /**
          * Comprobamos la clase
          */
@@ -273,9 +245,9 @@ class OlifTest extends \PHPUnit_Framework_TestCase
         $test4 = $this->test->req->getAllPostVar();
         $this->assertTrue($test4['test2'] === 'Prueba2');
 
-        $_GET['test3'] = array(
-            'Prueba3',
-            'Prueba4'
+        $_GET['test3'] = array (
+                'Prueba3',
+                'Prueba4'
         );
 
         $test5 = $this->test->req->getVar('test3');
@@ -296,12 +268,12 @@ class OlifTest extends \PHPUnit_Framework_TestCase
         /**
          * XSS injections
          */
-        $_GET['xss'] = array(
-            'Prueba5',
-            array(
-                'Prueba6',
-                '<script>alert("test XSS");</script>'
-            )
+        $_GET['xss'] = array (
+                'Prueba5',
+                array (
+                        'Prueba6',
+                        '<script>alert("test XSS");</script>'
+                )
         );
         ob_start();
         $testXss = $this->test->req->getVar('xss');
@@ -310,9 +282,7 @@ class OlifTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($testXss === false);
         $this->assertTrue($result_msg !== "");
     }
-
-    public function testControllerCookie()
-    {
+    public function testControllerCookie() {
         /**
          * Comprobamos la clase
          */
@@ -330,9 +300,7 @@ class OlifTest extends \PHPUnit_Framework_TestCase
 
         $this->test->cookie->end();
     }
-
-    public function testControllerFormat()
-    {
+    public function testControllerFormat() {
         /**
          * Comprobamos la clase
          */
@@ -398,31 +366,27 @@ class OlifTest extends \PHPUnit_Framework_TestCase
         $text = $this->test->format->cutText('<p><a href="http://link.es">hola</a> Qué tal?</p>', 4);
         $this->assertTrue($text === '<p><a href="http://link.es"...</p>');
     }
-
-    public function testControllerPage()
-    {
+    public function testControllerPage() {
         /**
          * Comprobamos la clase
          */
         $this->assertTrue(get_class($this->test->page) === "Olif\ControllerPage");
     }
-
-    public function testControllerPageError404()
-    {
+    public function testControllerPageError404() {
         ob_start();
         $result = $this->test->page->assignPage("Inventada-no-existe-404", "");
         $result_msg = ob_get_clean();
         $this->assertTrue($result_msg !== "");
     }
-
-    public function testControllerPageExist()
-    {
+    public function testControllerPageExist() {
+        ob_start();
         $this->test->page->assignPage("inicio", "");
+        $result_msg = ob_get_clean();
+        $this->assertTrue($result_msg === "");
+
         // $this->test->page->assignPage("", "");
     }
-
-    public function testViewPage()
-    {
+    public function testViewPage() {
         $vPage = new ViewPage();
         ob_start();
         $vPage->displayMeta();
@@ -433,9 +397,7 @@ class OlifTest extends \PHPUnit_Framework_TestCase
         $result_msg = ob_get_clean();
         $this->assertTrue($result_msg !== "");
     }
-
-    public function testDBClose()
-    {
+    public function testDBClose() {
         /**
          * Cerrar
          */
@@ -448,8 +410,7 @@ class OlifTest extends \PHPUnit_Framework_TestCase
      * Necesitamos probar si la instancia se mantiene de un objeto a otro.
      * para ello utilizaremos al controlador Access
      */
-    public function testSingleton()
-    {
+    public function testSingleton() {
         $this->test->access->setSessionID('MySessionID');
         $this->assertTrue($this->test->access->getSessionID() === 'MySessionID');
 
