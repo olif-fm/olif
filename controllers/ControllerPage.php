@@ -1,4 +1,5 @@
 <?php
+
 /**
  * ControllerPage
  * @version V 1.7
@@ -12,9 +13,7 @@
 namespace Olif;
 
 require_once CORE_ROOT . CONTROLLERS . DIRECTORY_SEPARATOR . "ControllerApp.php";
-
-class ControllerPage extends ControllerApp
-{
+class ControllerPage extends ControllerApp {
 
     /**
      * fileTemplateIndex
@@ -56,12 +55,12 @@ class ControllerPage extends ControllerApp
      * @access protected
      *
      */
-    protected $actionsPage = array(
-        'noIL',
-        'noIT',
-        'noILT',
-        'noHeader',
-        'noContent'
+    protected $actionsPage = array (
+            'noIL',
+            'noIT',
+            'noILT',
+            'noHeader',
+            'noContent'
     );
 
     /**
@@ -80,15 +79,13 @@ class ControllerPage extends ControllerApp
      * @var bool
      * @access protected
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->getModel();
         $this->getControllerMenu();
         $this->model->getModelPage();
         $this->getControllerAccess();
         parent::__construct();
     }
-
     private $pageToLoad;
     /**
      * assignPages
@@ -111,8 +108,7 @@ class ControllerPage extends ControllerApp
      *            </p>
      *
      */
-    public function assignPage($pageToLoad, $action = "")
-    {
+    public function assignPage($pageToLoad, $action = "") {
         $redirect = false;
         $islogin = false;
         if (strlen($pageToLoad) == 0) {
@@ -150,9 +146,9 @@ class ControllerPage extends ControllerApp
             /**
              * Si page action es una de las siguientes opciones no se carga el index (para reducir carga)
              */
-            if (! in_array($this->getAction(), array(
-                'noIL',
-                'noILT'
+            if (! in_array($this->getAction(), array (
+                    'noIL',
+                    'noILT'
             ))) {
                 $this->setPageLogicIndex();
             }
@@ -173,8 +169,7 @@ class ControllerPage extends ControllerApp
      *
      * @param string $file
      */
-    public function setFileTemplate($file)
-    {
+    public function setFileTemplate($file) {
         $this->fileTemplate = $file;
     }
 
@@ -184,8 +179,7 @@ class ControllerPage extends ControllerApp
      *
      * @return string
      */
-    public function getFileTemplate()
-    {
+    public function getFileTemplate() {
         if (strlen($this->fileTemplate) > 0) {
             return $this->fileTemplate;
         } else {
@@ -200,8 +194,7 @@ class ControllerPage extends ControllerApp
      *            file string
      * @access public
      */
-    public function setAction($action)
-    {
+    public function setAction($action) {
         if (! in_array($action, $this->actionsPage))
             $this->sendError("[ERROR " . get_class($this) . "::" . __FUNCTION__ . "::" . __LINE__ . "] Acción erronea: " . $action);
         $this->action = $action;
@@ -214,8 +207,7 @@ class ControllerPage extends ControllerApp
      *            file string
      * @access public
      */
-    public function getAction()
-    {
+    public function getAction() {
         if (strlen($this->action) > 0) {
             return $this->action;
         } else {
@@ -228,8 +220,7 @@ class ControllerPage extends ControllerApp
      *
      * @access public
      */
-    public function setPageLogic()
-    {
+    public function setPageLogic() {
         /**
          * Definimos $dev como global porque es el objeto que usarán los desarrolladores dentro de la lógica
          */
@@ -251,8 +242,7 @@ class ControllerPage extends ControllerApp
      *            file string
      * @access public
      */
-    public function setPageLogicIndex()
-    {
+    public function setPageLogicIndex() {
         /**
          * Definimos $dev como global porque es el objeto que usarán los desarrolladores dentro de la lógica
          */
@@ -276,8 +266,7 @@ class ControllerPage extends ControllerApp
      *            file string
      * @access public
      */
-    public function setFileTemplateIndex($file)
-    {
+    public function setFileTemplateIndex($file) {
         $this->fileTemplateIndex = $file;
     }
 
@@ -287,8 +276,7 @@ class ControllerPage extends ControllerApp
      *
      * @access public
      */
-    public function getFileTemplateIndex()
-    {
+    public function getFileTemplateIndex() {
         if (strlen($this->fileTemplateIndex) > 0 && $this->fileTemplateIndex != null) {
             return $this->fileTemplateIndex;
         } else {
@@ -302,8 +290,7 @@ class ControllerPage extends ControllerApp
      * @return bool
      * @access public
      */
-    public function checkPage()
-    {
+    public function checkPage() {
         return (strlen($this->menu->id)) ? true : $this->rise404("[ERROR " . get_class($this) . "::" . __FUNCTION__ . "::" . __LINE__ . "] Página " . $this->pageToLoad . " no existe");
     }
 
@@ -313,8 +300,7 @@ class ControllerPage extends ControllerApp
      * @return string
      * @access public
      */
-    public function checkPerms()
-    {
+    public function checkPerms() {
         return $this->menu->security;
     }
 
@@ -328,8 +314,7 @@ class ControllerPage extends ControllerApp
      *            </p>
      * @access public
      */
-    public function checkMovile($section = true)
-    {
+    public function checkMovile($section = true) {
         require_once (CORE_ROOT . THREEPARTY . 'Mobile-Detect/Mobile_Detect.php');
         $detect = new Mobile_Detect();
         if ($section === false) {
@@ -359,8 +344,7 @@ class ControllerPage extends ControllerApp
      * @access public
      *
      */
-    public function assignList($blockname, $vararray)
-    {
+    public function assignList($blockname, $vararray) {
         /*
          * if (strlen($padre)>0) { $this->model->page->lists[$padre][$name][]=$params; } else { $this->model->page->lists[$name][]=$params; }
          */
@@ -404,8 +388,7 @@ class ControllerPage extends ControllerApp
     /*
      * Función Auxiliar!!! borrar lo antes posible y ponerlo mejor!!!
      */
-    public function getMenu()
-    {
+    public function getMenu() {
         return $this->menu->getlist('', 'ORDER BY POSITION ASC', 0, 1000);
     }
 
@@ -416,13 +399,55 @@ class ControllerPage extends ControllerApp
      * @access public
      *
      */
-    public function assignMenu()
-    {
+    public function assignMenu($use_node_root = '1') {
+        $lang = (strlen(LANG_SELECTED) > 0) ? LANG_SELECTED : 'ES';
         $menu = $this->getMenu();
+        $assignMenu = array ();
+        $IS_CHILDER = 0;
         for ($i = 0; $i < $menu['num_elements']; $i ++) {
-            if ($this->access->checkLevelRol($menu['elements'][$i]['SECURITY']) && $menu['elements'][$i]['TYPE'] != 'no_menu') {
-                $this->assignList('menu', $menu['elements'][$i]);
+            $TAG_START_CHILDRENS_IS_OPEN = 0;
+            if ($this->access->checkLevelRol($menu['elements'][$i]['SECURITY']) && $menu['elements'][$i]['TYPE'] != 'no_menu' && $menu['elements'][$i]['USE_NODE_ROOT'] == $use_node_root) {
+                $menu['elements'][$i]['SELECTED'] = 0;
+                $menu['elements'][$i]['START_CHILDRENS'] = 0;
+                $menu['elements'][$i]['END_CHILDRENS'] = 0;
+                if ($this->menu->id == $menu['elements'][$i]['ID']) {
+                    $menu['elements'][$i]['SELECTED'] = 1;
+                    $num_elements = $i - 1;
+                    $actual_level = $this->menu->lvl;
+                    for ($j = $num_elements; $j >= 0; $j --) {
+                        if ($menu['elements'][$j]['LVL'] < $actual_level) {
+                            $menu['elements'][$j]['SELECTED'] = 1;
+                            $actual_level = $menu['elements'][$j]['LVL'];
+                        }
+                    }
+                }
+                $menu['elements'][$i]['IS_CHILDEN'] = $IS_CHILDER;
+                if ($menu['elements'][$i]['LVL'] < $menu['elements'][$i + 1]['LVL'] && $menu['elements'][$i + 1]['TYPE'] != 'no_menu') {
+                    $menu['elements'][$i]['START_CHILDRENS'] = 1;
+                    $TAG_START_CHILDRENS_IS_OPEN = 1;
+                    $IS_CHILDER = 0;
+                }
+                if ($menu['elements'][$i]['LVL'] > $menu['elements'][$i + 1]['LVL'] || $i + 1 == $menu['num_elements']) {
+                    $menu['elements'][$i]['END_CHILDRENS'] = 1;
+                    $IS_CHILDER = 1;
+                }
             }
+        }
+        for ($i = 0; $i < $menu['num_elements']; $i ++) {
+            if ($this->access->checkLevelRol($menu['elements'][$i]['SECURITY']) && $menu['elements'][$i]['TYPE'] != 'no_menu' && $menu['elements'][$i]['USE_NODE_ROOT'] == $use_node_root) {
+                $assignMenu[] = $menu['elements'][$i];
+            }
+        }
+        $num_elements = count($assignMenu);
+        /*
+         * TODO: Need to test this script
+         * if ($TAG_START_CHILDRENS_IS_OPEN == 1) {
+         * $assignMenu[count($assignMenu) - 1]['END_CHILDRENS'] = 1;
+         * }
+         */
+        for ($i = 0; $i < $num_elements; $i ++) {
+            $assignMenu[$i]['NAME'] = $assignMenu[$i]['NAME_' . $lang];
+            $this->assignList('menu', $assignMenu[$i]);
         }
     }
 
@@ -435,13 +460,10 @@ class ControllerPage extends ControllerApp
      * @access public
      *
      */
-    public function getPageURI()
-    {
+    public function getPageURI() {
         return $this->menu->url;
     }
-
-    public function getPageName()
-    {
+    public function getPageName() {
         return $this->menu->name_ . LANG_SELECTED;
     }
 
@@ -452,35 +474,9 @@ class ControllerPage extends ControllerApp
      * @access public
      *
      */
-    public function setBreadCrumbs($setInicio = true)
-    {
+    public function setBreadCrumbs($setInicio = true) {
         $lang = (strlen(LANG_SELECTED) > 0) ? LANG_SELECTED : 'ES';
-        // $page = $this->model->page->getPage();
-        $menu = $this->getMenu();
-        $encontrado = false;
-        for ($i = 0; $i < $menu['num_elements'] && $encontrado === false; $i ++) {
-            if ($menu['elements'][$i]['ID'] == $this->menu->id) {
-                $encontrado = true;
-            }
-        }
-        $breadcrums = array();
-        $breadcrums[] = $this->menu->get();
-        if ($i > 0) {
-            $num_elements = $i - 1;
-            $actual_level = $this->menu->lvl;
-            for ($i = $num_elements; $i >= 0; $i --) {
-                if ($menu['elements'][$i]['LVL'] < $actual_level) {
-                    $actual_level = $menu['elements'][$i]['LVL'];
-                    $breadcrums[] = $menu['elements'][$i];
-                }
-
-                if ($this->menu->url != 'inicio' && $menu['elements'][$i]['URL'] == 'inicio') {
-                    if ($setInicio == true)
-                        $breadcrums[] = $menu['elements'][$i];
-                }
-            }
-        }
-        $breadcrums = array_reverse($breadcrums);
+        $breadcrums = $this->menu->getBreadCrumbs($setInicio = true);
         $num_breadcrums = count($breadcrums);
         for ($i = 0; $i < $num_breadcrums; $i ++) {
             $breadcrums[$i]['NAME'] = $breadcrums[$i]['NAME_' . $lang];
@@ -509,8 +505,7 @@ class ControllerPage extends ControllerApp
      * @access public
      *
      */
-    public function assignVar($name, $value, $parse = true)
-    {
+    public function assignVar($name, $value, $parse = true) {
         if ($parse === true)
             $value = htmlentities($value, ENT_QUOTES | ENT_IGNORE, "UTF-8");
         $this->model->page->setVar($name, $value);
@@ -531,8 +526,7 @@ class ControllerPage extends ControllerApp
      *            </p>
      * @access public
      */
-    public function assignVarFileTemplate($var, $file)
-    {
+    public function assignVarFileTemplate($var, $file) {
         $this->model->page->setVarFileTemplate($var, $file);
     }
 
@@ -540,8 +534,7 @@ class ControllerPage extends ControllerApp
      * assignVars
      * Asigna variables a una plantilla en array
      */
-    public function assignVars(array $values)
-    {
+    public function assignVars(array $values) {
         foreach ($values as $name => $value) {
             $this->model->page->setVar($name, $value);
         }
@@ -551,8 +544,7 @@ class ControllerPage extends ControllerApp
      * noCache
      * Se elimina la caché para las páginas con contenido en constante cambio
      */
-    public function noCache()
-    {
+    public function noCache() {
         header("Cache-Control: no-store, no-cache, must-revalidate");
         header("Cache-Control: post-check=0, pre-check=0", false);
     }
@@ -562,8 +554,7 @@ class ControllerPage extends ControllerApp
      * Añadido de Jose.
      * PENDIENTE de pasar a su correspondiente clase. SOLO SE USA EN BOOTSTRAP
      */
-    public function assignDictionary($lang)
-    {
+    public function assignDictionary($lang) {
         // Asignar el diccionario base
         $lang = strtoupper($lang);
         $dic = $this->model->page->getDictionary($lang);
@@ -575,27 +566,19 @@ class ControllerPage extends ControllerApp
             }
         }
     }
-
-    public function getTitle()
-    {
+    public function getTitle() {
         $name = 'name_' . LANG_SELECTED;
         return $this->menu->{$name};
     }
-
-    public function getMetaTitle()
-    {
+    public function getMetaTitle() {
         $title_meta = 'title_meta_' . LANG_SELECTED;
         return $this->menu->{$title_meta};
     }
-
-    public function getMetaDesc()
-    {
+    public function getMetaDesc() {
         $desc_meta = 'desc_meta_' . LANG_SELECTED;
         return $this->menu->{$desc_meta};
     }
-
-    public function getMetaKeywords()
-    {
+    public function getMetaKeywords() {
         $keywords_meta = 'keywords_meta_' . LANG_SELECTED;
         return $this->menu->{$keywords_meta};
     }
