@@ -128,8 +128,11 @@ class ControllerFileExcel extends ControllerFile
         return true;
     }
 
-    public function saveFile()
+    public function saveFile($filename, $path)
     {
+        $this->setWorkingFile($filename);
+        $this->setWorkingPath($path);
+        $this->checkAbsolutePath();
         $this->pExcel->setActiveSheetIndex(0);
         $objWriter = \PHPExcel_IOFactory::createWriter($this->pExcel, $this->getTypeExcel($this->getAbsolutePathFile()));
         $objWriter->save($this->getAbsolutePathFile());
@@ -149,13 +152,13 @@ class ControllerFileExcel extends ControllerFile
 
         $this->initPHPExcel();
         $this->pExcel->getProperties()
-            ->setCreator("Góbalo")
-            ->setLastModifiedBy("Góbalo")
-            ->setTitle("Góbalo Excel Document")
-            ->setSubject("Góbalo Excel Document")
-            ->setDescription("Góbalo Excel Document")
-            ->setKeywords("Góbalo Excel Document")
-            ->setCategory("Góbalo Excel Document");
+            ->setCreator("OLIF FW")
+            ->setLastModifiedBy("OLIF FW")
+            ->setTitle("OLIF FW Excel Document")
+            ->setSubject("OLIF FW Excel Document")
+            ->setDescription("OLIF FW Excel Document")
+            ->setKeywords("OLIF FW Excel Document")
+            ->setCategory("OLIF FW Excel Document");
 
         $num_results = count($params);
         for ($i = 0; $i < $num_results; $i ++) {
@@ -171,7 +174,7 @@ class ControllerFileExcel extends ControllerFile
         // $this->pExcel->getActiveSheet()->setTitle('Simple');
         $this->pExcel->setActiveSheetIndex($this->activeSheet);
 
-        $objWriter = PHPExcel_IOFactory::createWriter($this->pExcel, $this->getTypeExcel($this->getWorkingFile()));
+        $objWriter = \PHPExcel_IOFactory::createWriter($this->pExcel, $this->getTypeExcel($this->getWorkingFile()));
         // echo $this->getTypeExcel($this->getAbsolutePathFile())."<br>";
         $objWriter->save($this->getAbsolutePathFile());
         // $result = $this->insertLog();

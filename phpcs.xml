@@ -3,6 +3,7 @@
     <description>OLIF Coding Standards based on PSR2</description>
     <exclude-pattern>*/autoload.php</exclude-pattern>
     <exclude-pattern>*/vendor/*</exclude-pattern>
+    <exclude-pattern>*/descubre/*</exclude-pattern>
     <exclude-pattern>*/threeparty/*</exclude-pattern>
     <exclude-pattern>*/build/*</exclude-pattern>
     <exclude-pattern>*/cache/*</exclude-pattern>
