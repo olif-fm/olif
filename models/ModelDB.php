@@ -426,7 +426,14 @@ class ModelDB extends ModelApp implements Idb
 
         return $result;
     }
-
+    /**
+     * setLastID
+     * asigna valores table
+     */
+    public function setLastID($value)
+    {
+        $this->lastID = $value;
+    }
     /**
      * setTable
      * asigna valores table

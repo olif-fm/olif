@@ -57,6 +57,7 @@ class ControllerFile extends ControllerApp{
             }
         } else {
             $result = $this->model->file->updateLog($checkFile['ID'], $_SERVER['REMOTE_ADDR'], $userID);
+
             if ($result!==false && strlen($result)>0) {
                 $this->setWorkingFileID($result);
                 return true;

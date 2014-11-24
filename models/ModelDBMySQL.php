@@ -113,6 +113,7 @@ class ModelDBMySQL extends ModelApp implements Idb
      */
     public function lunchQuery($sql, $parms, $action, $debug = false)
     {
+        $results = false;
         $parameters = array();
         $stmt = $this->con->prepare($sql);
         if (! $stmt) {
@@ -159,7 +160,8 @@ class ModelDBMySQL extends ModelApp implements Idb
                     $results[] = $x;
                 }
             } elseif ($action == 'PUT') {
-                $this->lastID = $this->con->insert_id;
+                $results = array();
+                $results['ID'] = $this->con->insert_id;
             }
         }
         if ($debug == true) {
@@ -176,7 +178,6 @@ class ModelDBMySQL extends ModelApp implements Idb
     {
         $result = array();
         $debug_params = $parms;
-        //var_dump($this->con);
         $stmt = $this->con->prepare($sql);
         if (! $stmt) {
             $texto_error = "[ERROR " . get_class($this) . "::" . __FUNCTION__ . "::" . __LINE__ . "] Se produjo un error al ejecutar la sentencia SQL: " . $sql . ".<br> El error fue: " . $this->con->error . "\n";

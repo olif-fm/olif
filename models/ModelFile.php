@@ -39,8 +39,9 @@ class ModelFile extends ModelApp
         $this->db->setIUField('FILENAME', $file);
         $this->db->setIUField('MIME_TYPE', $mime_type);
         $this->db->setIUField('NODE_ROOT', $node_root);
-        $result_op = $this->db->executeCommand();
-        return ($result_op !== false) ? $this->db->getLastID() : false;
+        $result = $this->db->executeCommand();
+        $this->db->setLastID($result['ID']);
+        return ($result !== false) ? $this->db->getLastID() : false;
     }
 
     public function updateLog($fileID, $ip, $userID)
