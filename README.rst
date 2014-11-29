@@ -6,12 +6,6 @@ OLIF Framework
 
 Information
 ===========
-.. image:: https://travis-ci.org/olif-fm/olif.svg?token=Y9wApmn2xrsquzm21C6R
-	:target: https://travis-ci.org/olif-fm/olif
-
-.. image:: https://coveralls.io/repos/olif-fm/olif/badge.png?branch=master
-  :target: https://coveralls.io/r/olif-fm/olif?branch=master
-
 OLIF is a PHP framework to support developers to build fast websites
 
 Documentation
