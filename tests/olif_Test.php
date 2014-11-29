@@ -122,7 +122,7 @@ class OlifTest extends \PHPUnit_Framework_TestCase {
         $this->test->db->setIUField('NAME_EN', 'NO-EXISTE');
         $this->test->db->setIUField('STATUS', 1);
         $result = $this->test->db->executeCommand();
-        $this->assertTrue($result === true);
+        $this->assertTrue($result !== false);
     }
     public function testDBUpdate() {
         /**
@@ -134,7 +134,7 @@ class OlifTest extends \PHPUnit_Framework_TestCase {
         $this->test->db->setIUField('NAME_ES', 'NO-EXISTE2');
         $this->test->db->setIUField('NAME_EN', 'NO-EXISTE2');
         $result = $this->test->db->executeCommand();
-        $this->assertTrue($result === true);
+        $this->assertTrue($result !== false);
     }
     public function testDBExist() {
         /**
@@ -173,7 +173,7 @@ class OlifTest extends \PHPUnit_Framework_TestCase {
         $this->test->db->setTable(TABLE_ROLS);
         $this->test->db->setCond('ID', 'NO-EXISTE');
         $result = $this->test->db->executeCommand();
-        $this->assertTrue($result === true);
+        $this->assertTrue($result !== false);
     }
     public function testControllerAccess() {
         /**
