@@ -29,7 +29,6 @@ class ViewPage
 
     public function displayMeta()
     {
-
         $this->displayVar('page_title', $this->controller->getTitle());
         $this->displayVar('meta_title', $this->controller->getMetaTitle());
         $this->displayVar('meta_desc', $this->controller->getMetaDesc());
@@ -77,7 +76,7 @@ class ViewPage
     public function displayPage()
     {
         // Si hay index:
-        if ($this->controller->getAction() == 'noHeader') {
+        if ($this->controller->getAction() == 'noHeader' || $this->controller->getAction() == 'noIT' || $this->controller->getAction() == 'noILT') {
             $tpl_name = 'no_header';
             $tpl = $tpl_name . ".tpl";
             $this->template->set_filenames(array(
@@ -89,7 +88,7 @@ class ViewPage
             $this->template->set_filenames(array(
                 'index' => $tpl
             ));
-        } elseif ($this->controller->getAction() != 'noIT') {
+        } else {
             $tpl_name = $this->controller->getFileTemplateIndex();
 
             $tpl = $tpl_name . ".tpl";
@@ -98,8 +97,8 @@ class ViewPage
             ));
         }
         $tpl_name = $this->controller->getFileTemplate();
-        //echo "[ERROR " . get_class($this) . "::" . __FUNCTION__ . "::" . __LINE__ . "]<br>";
-        //var_dump($tpl_name);
+        // echo "[ERROR " . get_class($this) . "::" . __FUNCTION__ . "::" . __LINE__ . "]<br>";
+        // var_dump($tpl_name);
         $tpl = $tpl_name . ".tpl";
         $this->template->set_filenames(array(
             'contenido' => $tpl
