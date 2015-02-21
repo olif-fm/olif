@@ -472,15 +472,15 @@ class ControllerFile extends ControllerApp{
      * @return string / error
      */
     public function checkAbsolutePath($sendError = false) {
-        if (is_dir(WEBSITE_ROOT.$this->workingPath)) {
+        if (is_dir(OLIF_ROOT.$this->workingPath)) {
             return true;
         } else {
-            if ($sendError===true)$this->sendError("[".get_class($this)."::".__FUNCTION__."::".__LINE__."] No existe el directorio ".WEBSITE_ROOT.$this->workingPath);
+            if ($sendError===true)$this->sendError("[".get_class($this)."::".__FUNCTION__."::".__LINE__."] No existe el directorio ".OLIF_ROOT.$this->workingPath);
             return false;
         }
     }
     public function getAbsolutePathFile() {
-        return ($this->checkAbsolutePath(true))? WEBSITE_ROOT.$this->workingPath.$this->workingFile:false;
+        return ($this->checkAbsolutePath(true))? OLIF_ROOT.$this->workingPath.$this->workingFile:false;
     }
 
     /**
@@ -491,8 +491,8 @@ class ControllerFile extends ControllerApp{
         $list_array=array();
         $row=0;
         ini_set('auto_detect_line_endings', true);
-        if (is_file(WEBSITE_ROOT.$filename)) {
-            if (($handle = fopen(WEBSITE_ROOT.$filename, "r")) !== false) {
+        if (is_file(OLIF_ROOT.$filename)) {
+            if (($handle = fopen(OLIF_ROOT.$filename, "r")) !== false) {
                 while (($data = fgetcsv($handle, 0, $delimiter, $enclosure)) !== false) {
                     $num = count($data);
                     $row++;
