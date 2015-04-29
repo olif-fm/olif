@@ -477,7 +477,7 @@ class ControllerOauthFacebook implements Ioauth{
         if ($user) {
             try {
                 // Proceed knowing you have a logged in user who's authenticated.
-                $this->userinfo = $this->client->api($this->scopes);
+                $this->userinfo = $this->client->api('/me');
             } catch (FacebookApiException $e) {
                 error_log($e);
                 $user = null;
