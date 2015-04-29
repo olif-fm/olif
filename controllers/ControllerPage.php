@@ -422,14 +422,18 @@ class ControllerPage extends ControllerApp {
                     }
                 }
                 $menu['elements'][$i]['IS_CHILDEN'] = $IS_CHILDER;
-                if ($menu['elements'][$i]['LVL'] < $menu['elements'][$i + 1]['LVL'] && $menu['elements'][$i + 1]['TYPE'] != 'no_menu') {
-                    $menu['elements'][$i]['START_CHILDRENS'] = 1;
-                    $TAG_START_CHILDRENS_IS_OPEN = 1;
-                    $IS_CHILDER = 0;
-                }
-                if ($menu['elements'][$i]['LVL'] > $menu['elements'][$i + 1]['LVL'] || $i + 1 == $menu['num_elements']) {
+                if(isset($menu['elements'][$i + 1])){
+                    if ($menu['elements'][$i]['LVL'] < $menu['elements'][$i + 1]['LVL'] && $menu['elements'][$i + 1]['TYPE'] != 'no_menu') {
+                        $menu['elements'][$i]['START_CHILDRENS'] = 1;
+                        $TAG_START_CHILDRENS_IS_OPEN = 1;
+                        $IS_CHILDER = 0;
+                    }
+                    if ($menu['elements'][$i]['LVL'] > $menu['elements'][$i + 1]['LVL'] || $i + 1 == $menu['num_elements']) {
+                        $menu['elements'][$i]['END_CHILDRENS'] = 1;
+                        $IS_CHILDER = 1;
+                    }
+                }else{
                     $menu['elements'][$i]['END_CHILDRENS'] = 1;
-                    $IS_CHILDER = 1;
                 }
             }
         }
