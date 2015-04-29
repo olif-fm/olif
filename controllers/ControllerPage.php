@@ -480,7 +480,7 @@ class ControllerPage extends ControllerApp {
      */
     public function setBreadCrumbs($setInicio = true) {
         $lang = (strlen(LANG_SELECTED) > 0) ? LANG_SELECTED : 'ES';
-        $breadcrums = $this->menu->getBreadCrumbs($setInicio = true);
+        $breadcrums = $this->menu->getBreadCrumbs($setInicio);
         $num_breadcrums = count($breadcrums);
         for ($i = 0; $i < $num_breadcrums; $i ++) {
             $breadcrums[$i]['NAME'] = $breadcrums[$i]['NAME_' . $lang];
