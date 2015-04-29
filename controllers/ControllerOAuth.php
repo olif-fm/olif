@@ -390,6 +390,7 @@ class ControllerOauthFacebook implements Ioauth{
     protected $clientId;
     protected $clientSecret;
     protected $scopes;
+    protected $likes = array();
     public function __construct($clientId, $clientSecret) {
         require_once(CORE_ROOT.THREEPARTY.DIRECTORY_SEPARATOR."facebook-php-sdk".DIRECTORY_SEPARATOR."src".DIRECTORY_SEPARATOR."facebook.php");
         $this->client = new \Facebook(array(
@@ -409,11 +410,16 @@ class ControllerOauthFacebook implements Ioauth{
     }
     /*REVISAR*/
     public function setConnectionURL($scopes) {
-        $this->scopes = $scopes[0];
+        $this->scopes = "";
+        foreach ($scopes as $scope){
+            if(strlen($this->scopes)>0){
+                $this->scopes.=",";
+            }
+            $this->scopes.=$scope;
+        }
         return $this->client->getLoginUrl(array(
-        'scope' => 'me',
-        'scope' => 'email'
-        ));
+            'scope' => $this->scopes,
+            ));
     }
     public function checkConnection($token) {
         $user = $this->client->getUser();
@@ -423,17 +429,36 @@ class ControllerOauthFacebook implements Ioauth{
         // If we have a $user id here, it means we know the user is logged into
         // Facebook, but we don't know if the access token is valid. An access
         // token is invalid if the user logged out of Facebook.
-        //var_dump($user);
         if ($user) {
             try {
                 // Proceed knowing you have a logged in user who's authenticated.
-                $this->userinfo = $this->client->api($this->scopes);
+                $this->userinfo = $this->client->api('/me');
             } catch (FacebookApiException $e) {
                 error_log($e);
                 $user = null;
             }
         }
         return (is_object($this->userinfo) || is_array($this->userinfo))? true: false;
+    }
+    public function getLikes($after) {
+        $user = $this->client->getUser();
+        if ($user) {
+            try {
+                // Proceed knowing you have a logged in user who's authenticated.
+               if(is_array($after))$after = "";
+               if (strlen($after)>0) $after= "&after=".$after;
+               $URI = $this->userinfo['id']."/likes?fields=id&access_token=".$this->client->getAccessToken()."&limit=150".$after;
+               $likes = $this->client->api($URI);
+               $this->likes = array_merge($this->likes, $likes['data']);
+               if(isset($likes['paging']['next'])){
+                   $this->getLikes($likes['paging']['cursors']['after']);
+               }
+            } catch (FacebookApiException $e) {
+                error_log($e);
+                $user = null;
+            }
+         }
+        return $this->likes;
     }
     /**
      * setConnection
