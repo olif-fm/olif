@@ -1,8 +1,16 @@
 .. contents::
 
-======
+==============
 OLIF Framework
-======
+==============
+.. image:: https://poser.pugx.org/olif-fm/olif/v/stable
+    :target: https://packagist.org/packages/olif-fm/olif
+.. image:: https://poser.pugx.org/olif-fm/olif/downloads
+    :target: https://packagist.org/packages/olif-fm/olif
+.. image:: https://poser.pugx.org/olif-fm/olif/v/unstable
+    :target: https://packagist.org/packages/olif-fm/olif
+.. image:: https://poser.pugx.org/olif-fm/olif/license
+    :target: https://packagist.org/packages/olif-fm/olif
 
 Information
 ===========
@@ -69,4 +77,3 @@ Update git submodules:
     git submodule update --init --recursive
 
 See [LINK TO DOCS] to configure PHP settings
-
