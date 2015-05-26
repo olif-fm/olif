@@ -130,7 +130,7 @@ class ModelDBMySQL extends ModelApp implements Idb
             call_user_func_array(array(
                 $stmt,
                 "bind_param"
-            ), $this->refValues($parms)) or die("[ERROR " . get_class($this) . "::" . __FUNCTION__ . "::" . __LINE__ . "] Query. Se produjo un error al ejecutar la sentencia ".$action." SQL: query: " . $sql . "<br>Params:" . print_r($parms) . ". El error fue: " . $this->con->error);
+            ), $this->refValues($parms)) or die("[ERROR " . get_class($this) . "::" . __FUNCTION__ . "::" . __LINE__ . "] Query. Se produjo un error al ejecutar la sentencia ".$action." SQL: query: " . $sql . "<br>Params:" . json_encode($parms) . ". El error fue: " . $this->con->error);
         }
         unset($parms);
         $results = $stmt->execute();

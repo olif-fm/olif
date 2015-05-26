@@ -66,7 +66,7 @@ function sendMailError($texto_error, $web, $optional_title = '')
     $var=debug_backtrace();
     //$debug=print_r($var,true);
     ob_start();
-    print_r($var);
+    json_encode($var);
     $debug= ob_get_clean();
     /**/
     $aviso_text .= "<pre>" . $debug . "</pre><br>";

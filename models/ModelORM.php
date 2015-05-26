@@ -132,7 +132,7 @@ class ModelORM extends ModelApp
         echo "JOINS: " . $this->joins . "<br>\n";
         echo "CONDS: " . $this->conds . "<br>\n";
         echo "CONDS EXTRA: " . $this->condsExtra . "<br>\n";
-        echo "PARAMS: " . print_r($this->paramsExtra) . "<br>\n";
+        echo "PARAMS: " . json_encode($this->paramsExtra) . "<br>\n";
     }
 
     public function save($object, $forceInsert)
