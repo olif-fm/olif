@@ -130,7 +130,7 @@ class ControllerPage extends ControllerApp {
         if (! $islogin)
             $this->access->loginAnonymous();
         if ($this->checkPerms() != 0 && ! $islogin) {
-            $redirect = 'login';
+            $redirect = NODE_ROOT.'login';
             header('location: ' . PROTOCOL . WEB_URL_NO_PROTOCOL . NODE_ROOT . 'login');
         }
         if ($this->menu->url == "login" && $islogin) {
