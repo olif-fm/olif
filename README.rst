@@ -11,6 +11,8 @@ OLIF Framework
     :target: https://packagist.org/packages/olif-fm/olif
 .. image:: https://poser.pugx.org/olif-fm/olif/license
     :target: https://packagist.org/packages/olif-fm/olif
+.. image:: https://insight.sensiolabs.com/projects/6c8d26f4-8096-460b-be1a-40ca2979f166/mini.png
+    :target: https://insight.sensiolabs.com/projects/6c8d26f4-8096-460b-be1a-40ca2979f166
 
 Information
 ===========
