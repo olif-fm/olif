@@ -130,16 +130,12 @@ class ControllerOAuth extends ControllerApp {
      */
     public function checkConnection() {
         if (strlen($this->getSessionToken())>0) {
-            //echo "llega1 ".$this->getSessionToken();
             return $this->oauth->checkConnection($this->getSessionToken());
         } else {
-            //echo "lleg2a ".$this->getSessionToken();
             if ($this->setConnection()) {
-                //echo "llega3 ".$this->getSessionToken();
                 $this->oauth->checkConnection($this->getSessionToken());
                 return true;
             } else {
-                //echo "llega4 ".$this->getSessionToken();
                 return false;
             }
         }
@@ -205,8 +201,6 @@ class ControllerOAuth extends ControllerApp {
         return $this->oauth->getUserInfo();
     }
     public function __call($method, $args) {
-        //echo "unknown method " . $method;
-        //var_dump($args);
         return $this->oauth->$method($args);
     }
 }
@@ -318,8 +312,7 @@ class ControllerOauthGoogle implements Ioauth{
     }
     public function checkFileExist($args) {
         $fileID = $args[0];
-        //echo "FILE: ";
-        //var_dump($fileID);
+
         if (strlen($fileID)>0) {
             if (function_exists('xdebug_disable'))xdebug_disable();
             try {
@@ -423,7 +416,6 @@ class ControllerOauthFacebook implements Ioauth{
     }
     public function checkConnection($token) {
         $user = $this->client->getUser();
-        //var_dump($user);
         // We may or may not have this data based on whether the user is logged in.
         //
         // If we have a $user id here, it means we know the user is logged into
@@ -473,7 +465,6 @@ class ControllerOauthFacebook implements Ioauth{
         // If we have a $user id here, it means we know the user is logged into
         // Facebook, but we don't know if the access token is valid. An access
         // token is invalid if the user logged out of Facebook.
-        //var_dump($user);
         if ($user) {
             try {
                 // Proceed knowing you have a logged in user who's authenticated.
@@ -525,7 +516,7 @@ class ControllerOauthTwitter implements Ioauth{
     }
     public function setConnectionURL($scopes = "") {
         // store the token
-        $this->client->setToken($this->reply->oauth_token, $this->reply->oauth_token_secret);
+        $this->setToken(array($this->reply->oauth_token, $this->reply->oauth_token_secret));
         $_SESSION['oauth_token'] = $this->reply->oauth_token;
         $_SESSION['oauth_token_secret'] = $this->reply->oauth_token_secret;
         $_SESSION['oauth_verify'] = true;
@@ -533,9 +524,49 @@ class ControllerOauthTwitter implements Ioauth{
         return $this->client->oauth_authorize();
     }
     public function checkConnection($token) {
-        $this->client->setToken($token, $_SESSION['oauth_token_secret']);
+        $this->setToken(array($token, $_SESSION['oauth_token_secret']));
         $this->userinfo = $this->client->account_verifyCredentials();
         return (is_object($this->userinfo))? true: false;
+    }
+    public function setToken($token) {
+        //Livevar_dump($token);
+        if(strlen($token[0]) > 0 && strlen($token[1]) > 0){
+            $this->client->setToken($token[0], $token[1]);
+        }
+    }
+    public function getHastag($params) {
+        //https://dev.twitter.com/docs/api/1.1/get/statuses/user_timeline
+        //https://dev.twitter.com/docs/api/1.1/get/search/tweets
+        $q = $params[0];
+        $count = $params[1];
+        $params = array(
+            'screen_name' => $q,
+            'q' => $q,
+            'count' => $count,
+            'include_entities' => true,
+            'result_type' => 'mixed'
+        );
+        var_dump($params);
+        //Make the REST call
+        $data = (array) $this->client->search_tweets($params);
+        return $data;
+    }
+    public function getUsetTweets($params) {
+        //https://dev.twitter.com/docs/api/1.1/get/statuses/user_timeline
+        //https://dev.twitter.com/docs/api/1.1/get/search/tweets
+        $q = $params[0];
+        $count = $params[1];
+        $params = array(
+                'screen_name' => $q,
+                'q' => $q,
+                'count' => $count,
+                'include_entities' => true,
+                'result_type' => 'mixed'
+        );
+        var_dump($params);
+        //Make the REST call
+        $data = (array) $this->client->statuses_userTimeline($params);
+        return $data;
     }
     /**
      * setConnection
@@ -543,7 +574,7 @@ class ControllerOauthTwitter implements Ioauth{
      * a la API de cliente de Google
      */
     public function setConnection($code) {
-        $this->client->setToken($_SESSION['oauth_token'], $_SESSION['oauth_token_secret']);
+        $this->setToken(array($_SESSION['oauth_token'], $_SESSION['oauth_token_secret']));
         unset($_SESSION['oauth_verify']);
 
         // get the access token
