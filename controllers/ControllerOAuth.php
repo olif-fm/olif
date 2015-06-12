@@ -544,9 +544,8 @@ class ControllerOauthTwitter implements Ioauth{
             'q' => $q,
             'count' => $count,
             'include_entities' => true,
-            'result_type' => 'mixed'
+            'result_type' => 'recent'
         );
-        var_dump($params);
         //Make the REST call
         $data = (array) $this->client->search_tweets($params);
         return $data;
@@ -563,7 +562,6 @@ class ControllerOauthTwitter implements Ioauth{
                 'include_entities' => true,
                 'result_type' => 'mixed'
         );
-        var_dump($params);
         //Make the REST call
         $data = (array) $this->client->statuses_userTimeline($params);
         return $data;
