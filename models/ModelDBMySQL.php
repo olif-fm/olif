@@ -12,6 +12,8 @@
  */
 namespace Olif;
 
+use Olif\Idb;
+
 require_once CORE_ROOT . LIBS . DIRECTORY_SEPARATOR . "Idb.php";
 
 require_once CORE_ROOT . MODELS . DIRECTORY_SEPARATOR . "ModelApp.php";
