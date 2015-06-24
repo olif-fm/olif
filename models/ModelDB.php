@@ -120,10 +120,7 @@ class ModelDB extends ModelApp implements Idb
             if (! defined('DDBBTYPE') || DDBBTYPE == 'MYSQL' || DDBBTYPE == 'APPENGINE') {
                 require_once CORE_ROOT . MODELS . DIRECTORY_SEPARATOR . "ModelDBMySQL.php";
                 $this->h_db = ModelDBMySQL::getInstance();
-                $this->h_db->connect($dbhost, $dbuser, $dbpass, $dbname, $port, $socket, $return_error);
-                if ($this->h_db !== false) {
-                    $result = true;
-                }
+                $result = $this->h_db->connect($dbhost, $dbuser, $dbpass, $dbname, $port, $socket, $return_error);
             } elseif (DDBBTYPE == 'PDO') {
                 // TODO: NO IMPLEMENTADO
                 $texto_error = "[ERROR " . get_class($this) . "::" . __FUNCTION__ . "::" . __LINE__ . "] PDO no implementado: \n";

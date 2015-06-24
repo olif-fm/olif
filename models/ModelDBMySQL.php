@@ -34,7 +34,7 @@ class ModelDBMySQL extends ModelApp implements Idb
     public function connect($dbhost, $dbuser, $dbpass, $dbname, $port, $socket, $return_error = false)
     {
         //TODO: NO DA FALLO CON CONEXIÓN MALA
-        $result = false;
+        $result = true;
         ini_set("display_errors", 0);
         $this->con = mysqli_init();
         if (! $this->con) {
@@ -53,10 +53,10 @@ class ModelDBMySQL extends ModelApp implements Idb
         if (($this->con->connect_error || $this->con->error) && $return_error === false) {
             $texto_error = "[ERROR " . get_class($this) . "::" . __FUNCTION__ . "::" . __LINE__ . "] Se produjo un error: " . $this->con->connect_error . "\n" . $this->con->error;
             $this->sendError($texto_error);
-        } else {
-            $result = true;
         }
-        $this->con->set_charset("utf8");
+        if($result===true){
+            $this->con->set_charset("utf8");
+        }
         return $result;
     }
 
